@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AfricanEye - AI-powered Pan-African Intelligence Platform.">
+    <meta name="theme-color" content="#090909">
+    <title>AfricanEye | Intelligence Dashboard</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/dashboard.css">
+</head>
+<body class="dashboard-body">
+
+    <!-- HEADER -->
+    <header class="dashboard-header">
+        <div class="header-left">
+            <a href="index.html" class="brand-logo" aria-label="AfricanEye Homepage">
+                <img src="assets/images/favicon.png" alt="AfricanEye Favicon" class="brand-favicon">
+                <img src="assets/images/logo.png" alt="AfricanEye Logo" class="brand-logo-img">
+                <div class="brand-details">
+                    <span class="brand-text">AfricanEye</span>
+                    <span class="brand-tagline">Observe. Analyze. Understand.</span>
+                </div>
+            </a>
+        </div>
+        <div class="header-right">
+            <!-- Search bar -->
+            <div class="search-bar-container">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Global search..." class="header-search-input">
+            </div>
+            <!-- AI Status Pill -->
+            <div class="ai-status-pill">
+                <span class="status-dot online"></span>
+                <span class="status-text">AI: <span id="header-ai-status">Online</span></span>
+            </div>
+            <!-- Settings trigger -->
+            <button class="icon-btn settings-trigger" aria-label="Open settings">
+                <i class="fa-solid fa-gear"></i>
+            </button>
+            <!-- User Avatar -->
+            <div class="user-avatar" title="Authorized Intelligence Officer">
+                <img src="https://ui-avatars.com/api/?name=Officer+AE&background=D4AF37&color=000000" alt="Officer Avatar">
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <div class="dashboard-layout">
+
+        <!-- LEFT SIDEBAR -->
+        <aside class="left-sidebar">
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active" data-tab="dashboard">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="news">
+                    <i class="fa-solid fa-newspaper"></i>
+                    <span>News</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="countries">
+                    <i class="fa-solid fa-earth-africa"></i>
+                    <span>Countries</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="ask">
+                    <i class="fa-solid fa-brain"></i>
+                    <span>Ask AfricanEye</span>
+                </a>
+                <a href="#" class="sidebar-link" data-tab="saved">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span>Saved</span>
+                </a>
+                <a href="#" class="sidebar-link settings-trigger" data-tab="settings">
+                    <i class="fa-solid fa-sliders"></i>
+                    <span>Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- CENTER CONTENT -->
+        <main class="main-content">
+
+            <!-- Tab: Dashboard (Main Welcome View) -->
+            <section id="tab-dashboard" class="tab-content active">
+                <div class="welcome-banner">
+                    <h1 class="welcome-title">Welcome to AfricanEye</h1>
+                    <p class="welcome-subtitle">AI-powered Pan-African Intelligence Platform</p>
+                </div>
+
+                <!-- 4 Simple Dashboard Cards Grid -->
+                <div class="dashboard-grid">
+                    <!-- Card 1: Latest News -->
+                    <div class="dashboard-card glass-card">
+                        <div class="card-header-accent"></div>
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-newspaper"></i> Latest News
+                        </h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-meta">ZAF • 10m ago</span>
+                                <p class="list-text">Trade agreements finalized at Johannesburg Investment Summit.</p>
+                            </li>
+                            <li>
+                                <span class="list-meta">NGA • 45m ago</span>
+                                <p class="list-text">Tech hub expansion in Lagos boosts regional connectivity metrics.</p>
+                            </li>
+                            <li>
+                                <span class="list-meta">KEN • 2h ago</span>
+                                <p class="list-text">M-Pesa system upgraded with advanced localized security layers.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 2: Latest Intelligence -->
+                    <div class="dashboard-card glass-card">
+                        <div class="card-header-accent"></div>
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-lightbulb"></i> Latest Intelligence
+                        </h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-meta">CIV • 3h ago</span>
+                                <p class="list-text">Strategic cocoa supply forecast outlines favorable Q3 crop yields.</p>
+                            </li>
+                            <li>
+                                <span class="list-meta">AGO • 5h ago</span>
+                                <p class="list-text">Offshore resource mapping demonstrates new deep-water potential.</p>
+                            </li>
+                            <li>
+                                <span class="list-meta">ETH • 12h ago</span>
+                                <p class="list-text">Regional integration corridors analyzed for Horn of Africa telecom.</p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 3: African Markets -->
+                    <div class="dashboard-card glass-card">
+                        <div class="card-header-accent"></div>
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-arrow-trend-up"></i> African Markets
+                        </h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-meta">JSE INDEX</span>
+                                <p class="list-text market-up">73,420.50 <span class="market-badge">+1.45%</span></p>
+                            </li>
+                            <li>
+                                <span class="list-meta">NGX GROUP</span>
+                                <p class="list-text market-up">99,120.10 <span class="market-badge">+0.82%</span></p>
+                            </li>
+                            <li>
+                                <span class="list-meta">NUR USD EXCHANGE</span>
+                                <p class="list-text market-down">Stable <span class="market-badge neutral">0.00%</span></p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Card 4: Security Watch -->
+                    <div class="dashboard-card glass-card">
+                        <div class="card-header-accent"></div>
+                        <h3 class="card-title">
+                            <i class="fa-solid fa-shield-halved"></i> Security Watch
+                        </h3>
+                        <ul class="card-list">
+                            <li>
+                                <span class="list-meta">SAHEL REGION</span>
+                                <p class="list-text security-warning"><i class="fa-solid fa-triangle-exclamation"></i> Monitoring logistical transit routes along Sahel corridor.</p>
+                            </li>
+                            <li>
+                                <span class="list-meta">SOMALIA CORRIDOR</span>
+                                <p class="list-text security-secure"><i class="fa-solid fa-circle-check"></i> Maritime piracy deterrence fleets report zero hostile vectors.</p>
+                            </li>
+                            <li>
+                                <span class="list-meta">GULF OF GUINEA</span>
+                                <p class="list-text security-secure"><i class="fa-solid fa-circle-check"></i> Combined naval operations verify stable commerce passage.</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- Tab: Ask AfricanEye -->
+            <section id="tab-ask" class="tab-content">
+                <div class="chat-section-wrapper">
+                    <div class="chat-panel glass-card">
+                        <div class="chat-header">
+                            <div class="chat-header-info">
+                                <i class="fa-solid fa-brain chat-brain-icon"></i>
+                                <div>
+                                    <h2 class="chat-panel-title">Ask AfricanEye</h2>
+                                    <p class="chat-panel-subtitle">Conversational synthesis engine for strategic Pan-African data</p>
+                                </div>
+                            </div>
+                            <!-- Small Provider Quick Indicator -->
+                            <div class="provider-quick-badge">
+                                <span id="quick-provider-name">None (Offline Agent)</span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Response / Conversation Area -->
+                        <div class="chat-response-area" id="chat-messages">
+                            <!-- Welcome/Starter system message -->
+                            <div class="chat-message system">
+                                <div class="message-sender"><i class="fa-solid fa-robot"></i> AfricanEye AI</div>
+                                <div class="message-bubble">
+                                    Welcome Officer. I am ready to generate, synthesize, and report on geopolitical, economic, or security vectors across all 54 African nations.
+                                    <br><br>
+                                    <em>Ask anything about Africa...</em>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input Box -->
+                        <div class="chat-input-container">
+                            <textarea id="chat-input-text" class="chat-input-field" placeholder="Ask anything about Africa..." rows="1"></textarea>
+                            <button id="chat-send-btn" class="chat-send-btn ripple">
+                                <span>Ask AfricanEye</span>
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: News -->
+            <section id="tab-news" class="tab-content">
+                <div class="section-title-wrap">
+                    <h2 class="tab-heading"><i class="fa-solid fa-newspaper"></i> Premium Intelligence News Feed</h2>
+                    <p class="tab-tagline">Vetted geopolitical and macroeconomic telemetry from trusted African nodes</p>
+                </div>
+                <div class="news-list-container">
+                    <!-- News Item 1 -->
+                    <div class="news-feed-item glass-card">
+                        <div class="news-feed-meta">
+                            <span class="news-feed-geo">ZAF</span>
+                            <span class="news-feed-time">10 minutes ago</span>
+                        </div>
+                        <h3 class="news-feed-title">Sandton Trade Accord Formally Ratified</h3>
+                        <p class="news-feed-body">Representatives from the Southern African Development Community (SADC) have formally ratified the Sandton Trade Accord. The agreement is poised to reduce cross-border tariffs on digital infrastructure equipment by 14%, accelerating pan-regional technological integration.</p>
+                    </div>
+                    <!-- News Item 2 -->
+                    <div class="news-feed-item glass-card">
+                        <div class="news-feed-meta">
+                            <span class="news-feed-geo">NGA</span>
+                            <span class="news-feed-time">45 minutes ago</span>
+                        </div>
+                        <h3 class="news-feed-title">Lagos Silicon Lagoon Hub Reaches 85% Completion</h3>
+                        <p class="news-feed-body">Sub-national telemetry reports show the 'Silicon Lagoon' technology infrastructure hub in Lagos has completed its primary network operations center. Vetted artificial intelligence agents are already being deployed to run energy grid simulation workloads.</p>
+                    </div>
+                    <!-- News Item 3 -->
+                    <div class="news-feed-item glass-card">
+                        <div class="news-feed-meta">
+                            <span class="news-feed-geo">KEN</span>
+                            <span class="news-feed-time">2 hours ago</span>
+                        </div>
+                        <h3 class="news-feed-title">Subsea Fiber Handshake Validated in Mombasa</h3>
+                        <p class="news-feed-body">A dual-redundant subsea fiber carrier cable successful terminated in Mombasa, boosting East African backbone capabilities. Expected latencies to European and Southern Asian endpoints have dropped below 80ms, improving algorithmic trade feeds.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Countries -->
+            <section id="tab-countries" class="tab-content">
+                <div class="section-title-wrap">
+                    <h2 class="tab-heading"><i class="fa-solid fa-earth-africa"></i> Country Risk Profiles</h2>
+                    <p class="tab-tagline">Real-time geopolitical coverage statistics across all 54 sovereign states</p>
+                </div>
+                <div class="countries-grid">
+                    <div class="country-profile-card glass-card">
+                        <div class="country-profile-header">
+                            <h3>South Africa</h3>
+                            <span class="country-badge-iso">ZAF</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Geopolitical Risk</span>
+                            <span class="metric-val secure">STABLE</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Economic Growth</span>
+                            <span class="metric-val">+2.1%</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Market Volatility</span>
+                            <span class="metric-val">LOW</span>
+                        </div>
+                    </div>
+                    <div class="country-profile-card glass-card">
+                        <div class="country-profile-header">
+                            <h3>Nigeria</h3>
+                            <span class="country-badge-iso">NGA</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Geopolitical Risk</span>
+                            <span class="metric-val warning">ELEVATED</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Economic Growth</span>
+                            <span class="metric-val">+3.4%</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Market Volatility</span>
+                            <span class="metric-val">MEDIUM</span>
+                        </div>
+                    </div>
+                    <div class="country-profile-card glass-card">
+                        <div class="country-profile-header">
+                            <h3>Kenya</h3>
+                            <span class="country-badge-iso">KEN</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Geopolitical Risk</span>
+                            <span class="metric-val secure">STABLE</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Economic Growth</span>
+                            <span class="metric-val">+4.2%</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Market Volatility</span>
+                            <span class="metric-val">LOW</span>
+                        </div>
+                    </div>
+                    <div class="country-profile-card glass-card">
+                        <div class="country-profile-header">
+                            <h3>Egypt</h3>
+                            <span class="country-badge-iso">EGY</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Geopolitical Risk</span>
+                            <span class="metric-val stable">MODERATE</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Economic Growth</span>
+                            <span class="metric-val">+3.1%</span>
+                        </div>
+                        <div class="country-metric-row">
+                            <span class="metric-name">Market Volatility</span>
+                            <span class="metric-val">MEDIUM</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab: Saved -->
+            <section id="tab-saved" class="tab-content">
+                <div class="section-title-wrap">
+                    <h2 class="tab-heading"><i class="fa-solid fa-bookmark"></i> Saved Intelligence Reports</h2>
+                    <p class="tab-tagline">Bookmarks and synthesized intelligence outputs saved to this workstation</p>
+                </div>
+                <div class="saved-empty-container glass-card">
+                    <i class="fa-solid fa-folder-open empty-icon"></i>
+                    <h3>No Bookmarks Yet</h3>
+                    <p>When you ask AfricanEye questions, the generated reports can be saved here for local access.</p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="right-sidebar">
+            <!-- AI Status Card -->
+            <div class="sidebar-status-card glass-card">
+                <h4 class="status-card-title"><i class="fa-solid fa-circle-nodes"></i> System Telemetry</h4>
+                <div class="status-metric">
+                    <span class="metric-label">AI Status</span>
+                    <span class="metric-value status-online">Online</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-label">Provider</span>
+                    <span class="metric-value" id="sidebar-provider">None</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-label">Model</span>
+                    <span class="metric-value" id="sidebar-model">Not Connected</span>
+                </div>
+            </div>
+
+            <!-- Coverage Card -->
+            <div class="sidebar-status-card glass-card">
+                <h4 class="status-card-title"><i class="fa-solid fa-globe"></i> Scope of Monitoring</h4>
+                <div class="status-metric">
+                    <span class="metric-label">Country Coverage</span>
+                    <span class="metric-value">54 Countries</span>
+                </div>
+                <div class="status-metric">
+                    <span class="metric-label">Sources Connected</span>
+                    <span class="metric-value" id="sidebar-sources">0 Connected</span>
+                </div>
+            </div>
+
+            <!-- Quick settings hint -->
+            <div class="sidebar-action-box glass-card">
+                <p>Configure API clearance keys to activate secure intelligence processing.</p>
+                <button class="btn btn-gold btn-block settings-trigger ripple">API Credentials</button>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- SETTINGS / CREDENTIALS MODAL -->
+    <div class="modal-overlay" id="dashboard-settings-modal" role="dialog" aria-modal="true" aria-label="API Credentials Settings">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <span class="modal-title"><i class="fa-solid fa-key"></i> Credentials Manager</span>
+                <button class="modal-close" id="close-settings-btn" aria-label="Close settings">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="signin-form" id="settings-form" onsubmit="event.preventDefault();">
+                    <p class="form-instructions">Select an AI provider and enter your API keys. Keys are saved locally on your workstation's secure browser sandbox.</p>
+
+                    <div class="form-group">
+                        <label for="provider-select">Intelligence Provider</label>
+                        <select id="provider-select" class="form-control">
+                            <option value="none">None (Simulated Intelligence)</option>
+                            <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
+                            <option value="claude">Claude (Anthropic Claude 3.5 Sonnet)</option>
+                            <option value="gemini">Gemini (Google Gemini 1.5 Pro)</option>
+                            <option value="deepseek">DeepSeek (DeepSeek-V3 / DeepSeek-R1)</option>
+                            <option value="qwen">Qwen (Alibaba Qwen-2.5)</option>
+                            <option value="kimi">Kimi (Moonshot AI Kimi-Chat)</option>
+                            <option value="mistral">Mistral (Mistral Large / Codestral)</option>
+                            <option value="openrouter">OpenRouter (Unified API Access)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="api-key-group">
+                        <label for="api-key-input">Secure API Key</label>
+                        <input type="password" id="api-key-input" class="form-control" placeholder="sk-...">
+                    </div>
+
+                    <div class="form-group" id="model-select-group">
+                        <label for="model-input">Custom Model Name (Optional)</label>
+                        <input type="text" id="model-input" class="form-control" placeholder="Default for selected provider">
+                    </div>
+
+                    <button type="submit" id="save-settings-btn" class="btn btn-gold btn-block ripple">Save and Validate Credentials</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script type="module" src="assets/js/dashboard.js"></script>
+
+</body>
+</html>

@@ -193,6 +193,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         launchLoader.classList.add('hidden');
                         launchSuccess.classList.remove('hidden');
                     }
+                    // Redirect to dashboard after a premium pause (1.5 seconds)
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
                 }
             }, 750);
         });
