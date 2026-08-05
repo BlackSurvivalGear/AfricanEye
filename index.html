@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AfricanEye - AI-powered Pan-African intelligence platform delivering verified news, geopolitical intelligence, economic insight, and strategic reporting.">
+    <meta name="theme-color" content="#090909">
+    <title>AfricanEye | Pan-African Intelligence Platform</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <!-- Google Fonts for premium typography (Inter & Playfair Display / Cinzel for luxurious feel) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for high-quality professional icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+    <!-- Background Canvas for Interactive Particles -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Header / Navigation -->
+    <header class="main-header" id="header">
+        <div class="nav-container">
+            <!-- Left Branding -->
+            <a href="#" class="brand-logo" aria-label="AfricanEye Homepage">
+                <img src="assets/images/favicon.png" alt="AfricanEye Favicon" class="brand-favicon">
+                <img src="assets/images/logo.png" alt="AfricanEye Logo" class="brand-logo-img">
+                <span class="brand-text">AfricanEye</span>
+            </a>
+
+            <!-- Hamburger Button for Mobile -->
+            <button class="mobile-toggle" aria-label="Toggle navigation" aria-controls="main-nav" aria-expanded="false">
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+                <span class="hamburger-bar"></span>
+            </button>
+
+            <!-- Center Navigation Links -->
+            <nav class="main-nav" id="main-nav" aria-label="Primary navigation">
+                <ul class="nav-list">
+                    <li><a href="#" class="nav-link active">Home</a></li>
+                    <li><a href="#news" class="nav-link">News</a></li>
+                    <li><a href="#intelligence" class="nav-link">Intelligence</a></li>
+                    <li><a href="#maps" class="nav-link">Maps</a></li>
+                    <li><a href="#ai" class="nav-link">AI</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                </ul>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="header-actions">
+                <button class="action-btn search-trigger" aria-label="Search intelligence repository">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <button class="btn btn-text sign-in-trigger">Sign In</button>
+                <button class="btn btn-gold launch-trigger">Launch Platform</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero-section" id="home">
+            <!-- Animated Centered Watermark Logo -->
+            <div class="hero-watermark-container">
+                <img src="assets/images/logo.png" alt="" class="hero-watermark" aria-hidden="true">
+            </div>
+
+            <div class="hero-container fade-in">
+                <div class="badge-container">
+                    <span class="premium-badge"><span class="badge-dot"></span> Next-Gen AI Intelligence</span>
+                </div>
+                <h1 class="hero-title">AfricanEye</h1>
+                <p class="hero-tagline">Observe. Analyze. Understand.</p>
+                <p class="hero-subtitle">
+                    AI-powered Pan-African Intelligence Platform delivering verified news, geopolitical intelligence, economic insight, and strategic reporting from an African perspective.
+                </p>
+                <div class="hero-actions">
+                    <button class="btn btn-gold btn-large launch-trigger ripple">Launch Platform</button>
+                    <a href="#intelligence" class="btn btn-outline btn-large ripple">Learn More</a>
+                </div>
+            </div>
+
+            <!-- Soft background highlights / radial gradients -->
+            <div class="bg-gradient-glow glow-1"></div>
+            <div class="bg-gradient-glow glow-2"></div>
+        </section>
+
+        <!-- Intelligence Statistics Section -->
+        <section class="stats-section" id="about">
+            <div class="section-container">
+                <div class="section-header fade-in">
+                    <h2 class="section-title-sm">Operational Metrics</h2>
+                    <p class="section-description">Unrivaled reach and data completeness across the African continent.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <!-- Card 1: Countries Monitored -->
+                    <div class="stat-card glass-card fade-in delay-1">
+                        <div class="card-reflection"></div>
+                        <div class="stat-number">54</div>
+                        <div class="stat-label">Countries Monitored</div>
+                    </div>
+
+                    <!-- Card 2: Trusted Sources -->
+                    <div class="stat-card glass-card fade-in delay-2">
+                        <div class="card-reflection"></div>
+                        <div class="stat-number">500+</div>
+                        <div class="stat-label">Trusted Sources</div>
+                    </div>
+
+                    <!-- Card 3: AI Agents -->
+                    <div class="stat-card glass-card fade-in delay-3">
+                        <div class="card-reflection"></div>
+                        <div class="stat-number">7</div>
+                        <div class="stat-label">AI Agents</div>
+                    </div>
+
+                    <!-- Card 4: Languages -->
+                    <div class="stat-card glass-card fade-in delay-4">
+                        <div class="card-reflection"></div>
+                        <div class="stat-number">10+</div>
+                        <div class="stat-label">Languages</div>
+                    </div>
+
+                    <!-- Card 5: Intelligence -->
+                    <div class="stat-card glass-card fade-in delay-5">
+                        <div class="card-reflection"></div>
+                        <div class="stat-number success-color">24/7</div>
+                        <div class="stat-label">Intelligence</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Platform Preview Section / Feature Grid -->
+        <section class="preview-section" id="intelligence">
+            <div class="section-container">
+                <div class="section-header fade-in">
+                    <span class="premium-badge-sm">Capabilities</span>
+                    <h2 class="section-title">The Intelligence Framework</h2>
+                    <p class="section-description">A multi-dimensional view of the continent powered by advanced machine learning models and verified ground-truth intelligence.</p>
+                </div>
+
+                <div class="features-grid">
+                    <!-- Feature 1: News -->
+                    <div class="feature-card glass-card fade-in" id="news">
+                        <div class="card-reflection"></div>
+                        <div class="feature-icon-wrapper">
+                            <span class="feature-emoji">📰</span>
+                        </div>
+                        <h3 class="feature-title">News</h3>
+                        <p class="feature-description">Real-time verified reporting, filtered from noise and misinformation, delivering objective truth instantly.</p>
+                        <div class="feature-glow-hover"></div>
+                    </div>
+
+                    <!-- Feature 2: Intelligence -->
+                    <div class="feature-card glass-card fade-in">
+                        <div class="card-reflection"></div>
+                        <div class="feature-icon-wrapper">
+                            <span class="feature-emoji">🌍</span>
+                        </div>
+                        <h3 class="feature-title">Intelligence</h3>
+                        <p class="feature-description">Deep African geopolitical analysis, regional dynamic models, and expert risk forecasts.</p>
+                        <div class="feature-glow-hover"></div>
+                    </div>
+
+                    <!-- Feature 3: Markets -->
+                    <div class="feature-card glass-card fade-in">
+                        <div class="card-reflection"></div>
+                        <div class="feature-icon-wrapper">
+                            <span class="feature-emoji">📈</span>
+                        </div>
+                        <h3 class="feature-title">Markets</h3>
+                        <p class="feature-description">Economic and financial intelligence, trade flow monitoring, and commodity asset indices.</p>
+                        <div class="feature-glow-hover"></div>
+                    </div>
+
+                    <!-- Feature 4: Security -->
+                    <div class="feature-card glass-card fade-in">
+                        <div class="card-reflection"></div>
+                        <div class="feature-icon-wrapper">
+                            <span class="feature-emoji">🛰</span>
+                        </div>
+                        <h3 class="feature-title">Security</h3>
+                        <p class="feature-description">Conflict, threat intelligence, and security monitoring with sub-national resolution tracking.</p>
+                        <div class="feature-glow-hover"></div>
+                    </div>
+
+                    <!-- Feature 5: Interactive Maps -->
+                    <div class="feature-card glass-card fade-in" id="maps">
+                        <div class="card-reflection"></div>
+                        <div class="feature-icon-wrapper">
+                            <span class="feature-emoji">🗺</span>
+                        </div>
+                        <h3 class="feature-title">Interactive Maps</h3>
+                        <p class="feature-description">Live geospatial intelligence mapping, conflict overlays, and real-time transit telemetry.</p>
+                        <div class="feature-glow-hover"></div>
+                    </div>
+
+                    <!-- Feature 6: AI Assistant -->
+                    <div class="feature-card glass-card fade-in" id="ai">
+                        <div class="card-reflection"></div>
+                        <div class="feature-icon-wrapper">
+                            <span class="feature-emoji">🤖</span>
+                        </div>
+                        <h3 class="feature-title">AI Assistant</h3>
+                        <p class="feature-description">Conversational intelligence engine designed to query complex databases and synthesize instant reports.</p>
+                        <div class="feature-glow-hover"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Extra background radial glow -->
+            <div class="bg-gradient-glow glow-3"></div>
+        </section>
+
+        <!-- Sophisticated Live Intelligence Ticker (Bloomberg inspired) -->
+        <section class="ticker-section fade-in">
+            <div class="ticker-container">
+                <div class="ticker-title">
+                    <span class="pulse-dot"></span> LIVE TELEMETRY
+                </div>
+                <div class="ticker-wrap">
+                    <div class="ticker-move">
+                        <span class="ticker-item"><strong class="ticker-geo">NGA</strong> AI Model localized for Hausa translation verified <span class="trend-up">+0.04s</span></span>
+                        <span class="ticker-item"><strong class="ticker-geo">ZAF</strong> Economic report: Mineral exports telemetry updated <span class="trend-neutral">ACTIVE</span></span>
+                        <span class="ticker-item"><strong class="ticker-geo">KEN</strong> Geopolitical threat vectors analyzed for Horn of Africa <span class="trend-down">SECURE</span></span>
+                        <span class="ticker-item"><strong class="ticker-geo">AGO</strong> Offshore drilling supply-chain tracking active <span class="trend-up">STABLE</span></span>
+                        <span class="ticker-item"><strong class="ticker-geo">EGY</strong> Suez transit volume forecasts completed <span class="trend-up">+1.8%</span></span>
+                        <span class="ticker-item"><strong class="ticker-geo">ETH</strong> Regional infrastructure network connectivity: 99.9% <span class="trend-up">OPTIMAL</span></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-brand-side">
+                <div class="footer-logo">
+                    <img src="assets/images/favicon.png" alt="" class="footer-favicon">
+                    <span class="footer-logo-text">AfricanEye</span>
+                </div>
+                <p class="footer-tagline">Observe. Analyze. Understand.</p>
+                <p class="footer-subtext">The standard for premium, secure Pan-African intelligence and analysis powered by customized language models.</p>
+            </div>
+
+            <div class="footer-links-side">
+                <div class="footer-links-col">
+                    <h4 class="footer-heading">Platform</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#news">News</a></li>
+                        <li><a href="#intelligence">Intelligence</a></li>
+                        <li><a href="#maps">Interactive Maps</a></li>
+                        <li><a href="#ai">AI Assistant</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-heading">Resources</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#" class="modal-link" data-modal="api">API Docs</a></li>
+                        <li><a href="https://github.com" target="_blank" rel="noopener">GitHub</a></li>
+                        <li><a href="#" class="modal-link" data-modal="contact">Contact Support</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4 class="footer-heading">Legal</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#" class="modal-link" data-modal="privacy">Privacy Policy</a></li>
+                        <li><a href="#" class="modal-link" data-modal="terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="footer-bottom-container">
+                <p class="copyright-text">&copy; <span id="current-year"></span> AfricanEye. All strategic assets protected.</p>
+                <div class="footer-socials">
+                    <a href="https://github.com" target="_blank" rel="noopener" aria-label="GitHub Repository"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" aria-label="LinkedIn Professional Network"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" aria-label="X Social Platform"><i class="fa-brands fa-x-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Search Overlay (Perplexity style) -->
+    <div class="modal-overlay" id="search-modal" role="dialog" aria-modal="true" aria-label="Search Intelligence">
+        <div class="modal-container glass-card large-modal">
+            <div class="modal-header">
+                <span class="modal-title"><i class="fa-solid fa-brain"></i> Conversational Search</span>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="search-input-wrapper">
+                    <input type="text" class="search-input" placeholder="Query AfricanEye intelligence database..." autofocus>
+                    <button class="search-submit"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+                <div class="search-suggestions">
+                    <span class="suggest-label">Suggested Queries:</span>
+                    <button class="suggest-btn">East Africa infrastructure development</button>
+                    <button class="suggest-btn">Mineral trade policy in DR Congo</button>
+                    <button class="suggest-btn">Sahel regional security outlook 2025</button>
+                </div>
+                <div class="search-results-placeholder">
+                    <div class="pulse-indicator">
+                        <span class="pulse-ring"></span>
+                        <span>Directing query to AI Agent network...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Sign In Overlay -->
+    <div class="modal-overlay" id="signin-modal" role="dialog" aria-modal="true" aria-label="Sign In">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <span class="modal-title"><i class="fa-solid fa-shield-halved"></i> Security Portal</span>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form class="signin-form" onsubmit="event.preventDefault();">
+                    <p class="form-instructions">Authorized intelligence credentials required for access.</p>
+                    <div class="form-group">
+                        <label for="signin-email">Security ID / Email</label>
+                        <input type="email" id="signin-email" class="form-control" required placeholder="name@organization.gov">
+                    </div>
+                    <div class="form-group">
+                        <label for="signin-password">Passcode</label>
+                        <input type="password" id="signin-password" class="form-control" required placeholder="••••••••••••">
+                    </div>
+                    <button type="submit" class="btn btn-gold btn-block ripple">Request Clearance</button>
+                    <div class="form-help">
+                        <a href="#">Lost credential recovery</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Launch Platform Overlay -->
+    <div class="modal-overlay" id="launch-modal" role="dialog" aria-modal="true" aria-label="Launch Platform">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <span class="modal-title"><i class="fa-solid fa-bolt"></i> Launching Platform</span>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body launch-modal-body">
+                <div class="launch-loader">
+                    <div class="spinner"></div>
+                    <div class="loading-step" id="step-text">Initializing security sandbox...</div>
+                </div>
+                <div class="launch-success-message hidden">
+                    <i class="fa-solid fa-circle-check success-icon"></i>
+                    <h3>Clearance Granted</h3>
+                    <p>Redirecting to AfricanEye core environment...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- General Text Modal (For Privacy, Terms, API, Contact) -->
+    <div class="modal-overlay" id="general-modal" role="dialog" aria-modal="true" aria-label="Information">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <span class="modal-title" id="general-modal-title">AfricanEye Intelligence</span>
+                <button class="modal-close" aria-label="Close modal">&times;</button>
+            </div>
+            <div class="modal-body" id="general-modal-content">
+                <!-- Content will be injected dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Vanilla Javascript Modules -->
+    <script type="module" src="assets/js/main.js"></script>
+</body>
+</html>
