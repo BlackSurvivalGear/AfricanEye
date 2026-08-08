@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - feature/africaneye-osint-frontend
+  pull_request:
+    branches:
+      - main
+    types: [synchronize]
   workflow_dispatch:
 
 permissions:
@@ -89,7 +93,7 @@ jobs:
               c = re.sub(r'/\* Authentication Loading Screen \*/.*?(?=/\* User Profile Header \*/)', '', c, flags=re.I|re.S)
               c = re.sub(r'/\* User Profile Header \*/.*?(?=/\* Reports System Styles \*/)', '', c, flags=re.I|re.S)
               c = re.sub(r'/\* Reports System Styles \*/.*?(?=/\* Dashboard Styles \*/)', '', c, flags=re.I|re.S)
-              c = re.sub(r'/\* Dashboard Styles \*/.*?(?=/\.searchable-dropdown/)', '', c, flags=re.I|re.S)
+              c = re.sub(r'/\* Dashboard Styles \*/.*?(?=\.searchable-dropdown)', '', c, flags=re.I|re.S)
               css.write_text(c, encoding='utf-8')
           PY
 
