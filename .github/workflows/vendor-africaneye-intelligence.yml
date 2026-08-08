@@ -1,0 +1,56 @@
+name: Vendor AfricanEye Intelligence Frontend
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'feature/africaneye-osint-frontend'
+    paths:
+      - 'scripts/vendor-africaneye-intelligence.mjs'
+      - '.github/workflows/vendor-africaneye-intelligence.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  vendor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout AfricanEye
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Vendor protected AfrOsint frontend
+        run: node scripts/vendor-africaneye-intelligence.mjs
+
+      - name: Verify frontend-only boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f assets/africaneye-intelligence/index.html
+          if grep -RniE 'firebase|firestore|firebase-auth|firebase-storage|firebase-config|afrosint-auth|permissions\\.js|authLoadingScreen|AfrOsint|AFROSINT|afrosint' assets/africaneye-intelligence --exclude='*.map' 2>/dev/null; then
+            echo 'Backend/authentication or legacy branding detected in vendored frontend.'
+            exit 1
+          fi
+          test ! -e assets/africaneye-intelligence/login
+          test ! -e assets/africaneye-intelligence/firestore.rules
+          test ! -e assets/africaneye-intelligence/storage.rules
+
+      - name: Commit generated frontend
+        shell: bash
+        run: |
+          git config user.name 'AfricanEye Vendor Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets/africaneye-intelligence
+          if git diff --cached --quiet; then
+            echo 'No vendor changes.'
+            exit 0
+          fi
+          git commit -m 'build: vendor AfricanEye intelligence frontend [skip ci]'
+          git push origin HEAD:feature/africaneye-osint-frontend

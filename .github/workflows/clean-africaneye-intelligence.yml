@@ -1,0 +1,143 @@
+name: Clean AfricanEye Intelligence Frontend
+
+on:
+  push:
+    branches:
+      - feature/africaneye-osint-frontend
+  pull_request:
+    branches:
+      - main
+    types: [synchronize]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout AfricanEye integration branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Restore existing AfricanEye shell and source frontend CSS
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="assets/africaneye-intelligence"
+          test -f "$ROOT/index.html"
+
+          # Never replace or simplify the existing AfricanEye homepage.
+          git checkout origin/main -- index.html assets/js/main.js
+
+          # Restore the originally uploaded Intelligence stylesheet from its first
+          # commit, undoing accidental later truncation before applying cleanup.
+          FIRST_CSS_COMMIT="$(git log --reverse --format=%H -- "$ROOT/css/style.css" | head -1)"
+          test -n "$FIRST_CSS_COMMIT"
+          git show "$FIRST_CSS_COMMIT:$ROOT/css/style.css" > "$ROOT/css/style.css"
+
+          # Launching the existing AfricanEye platform now opens the local
+          # frontend-only Intelligence application instead of the old dashboard.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('assets/js/main.js')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace("window.location.href = 'dashboard.html';", "window.location.href = 'africaneye-osint.html';")
+          p.write_text(s, encoding='utf-8')
+          PY
+
+      - name: Clean uploaded Intelligence frontend only
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="assets/africaneye-intelligence"
+          test -f "$ROOT/index.html"
+
+          # Remove known backend/authentication modules from the uploaded frontend.
+          rm -f "$ROOT/js/afrosint-auth.js" "$ROOT/js/reports.js" "$ROOT/js/analyst.js"
+          rm -rf "$ROOT/js/prompts"
+
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          root = Path('assets/africaneye-intelligence')
+          text_ext = {'.html','.css','.js','.mjs','.json','.svg','.md'}
+          for p in root.rglob('*'):
+              if not p.is_file() or p.suffix.lower() not in text_ext:
+                  continue
+              try:
+                  s = p.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              s = re.sub(r'AfrOsint', 'AfricanEye', s, flags=re.I)
+              s = s.replace('AFROSINT', 'AFRICANEYE')
+              s = re.sub(r'assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png', 'assets/images/africaneye-logo.svg', s, flags=re.I)
+              s = re.sub(r'\.\./assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png', '../assets/images/africaneye-logo.svg', s, flags=re.I)
+              p.write_text(s, encoding='utf-8')
+
+          index = root / 'index.html'
+          s = index.read_text(encoding='utf-8')
+          s = re.sub(r'<!--\s*Firebase SDKs.*?-->', '', s, flags=re.I|re.S)
+          s = re.sub(r'<script[^>]+(?:firebase|afrosint-auth|permissions\.js|reports\.js|analyst\.js)[^>]*></script>', '', s, flags=re.I)
+          s = re.sub(r'<div[^>]*id=["\']authLoadingScreen["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
+          s = re.sub(r'<div[^>]*class=["\'][^"\']*loader-text[^"\']*["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
+          index.write_text(s, encoding='utf-8')
+
+          css = root / 'css/style.css'
+          if css.exists():
+              c = css.read_text(encoding='utf-8')
+              c = re.sub(r"url\(['\"]?\.\./assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png['\"]?\)", "url('../assets/images/africaneye-logo.svg')", c, flags=re.I)
+              c = re.sub(r'/\* Authentication Loading Screen \*/.*?(?=/\* User Profile Header \*/)', '', c, flags=re.I|re.S)
+              c = re.sub(r'/\* User Profile Header \*/.*?(?=/\* Reports System Styles \*/)', '', c, flags=re.I|re.S)
+              c = re.sub(r'/\* Reports System Styles \*/.*?(?=/\* Dashboard Styles \*/)', '', c, flags=re.I|re.S)
+              c = re.sub(r'/\* Dashboard Styles \*/.*?(?=\.searchable-dropdown)', '', c, flags=re.I|re.S)
+              css.write_text(c, encoding='utf-8')
+          PY
+
+      - name: Verify application boundaries and integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROOT="assets/africaneye-intelligence"
+
+          test -f "$ROOT/index.html"
+          test -f "$ROOT/js/app.js"
+          test -f "$ROOT/css/style.css"
+          test -f "$ROOT/assets/images/africaneye-logo.svg"
+          test "$(wc -l < index.html)" -gt 300
+          test "$(wc -l < "$ROOT/css/style.css")" -gt 500
+          grep -q "africaneye-osint.html" assets/js/main.js
+
+          if find "$ROOT" -type f \( -name 'afrosint-auth.js' -o -name 'reports.js' -o -name 'analyst.js' \) | grep -q .; then
+            echo 'Backend/authentication files remain in the frontend tree.'
+            exit 1
+          fi
+
+          if grep -RniE 'firebase|firestore|afrosint-auth|AUTHENTICATING PERSONNEL|AfrOsint|AFROSINT|api\.openai\.com|Authorization[[:space:]]*:[[:space:]]*Bearer' "$ROOT" \
+            --include='*.html' --include='*.css' --include='*.js' --include='*.mjs' --include='*.json' --include='*.svg'; then
+            echo 'Frontend-only verification failed.'
+            exit 1
+          fi
+
+          if grep -RniE 'login/(dashboard|js)|report\.html|analyst' "$ROOT" \
+            --include='*.html' --include='*.css' --include='*.js' --include='*.mjs'; then
+            echo 'Legacy backend/authentication route reference detected.'
+            exit 1
+          fi
+
+      - name: Commit cleaned frontend and restored shell
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'AfricanEye Frontend Bot'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html assets/js/main.js assets/africaneye-intelligence
+          if git diff --cached --quiet; then
+            echo 'No cleanup changes required.'
+            exit 0
+          fi
+          git commit -m 'fix: finalize AfricanEye intelligence integration'
+          git push origin HEAD:feature/africaneye-osint-frontend
