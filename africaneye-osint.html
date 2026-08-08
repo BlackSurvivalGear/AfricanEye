@@ -4,36 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>AfricanEye Intelligence</title>
-<style>
-html,body{margin:0;height:100%;background:#02070d;color:#fff;font-family:Arial,sans-serif}
-#loading{position:fixed;inset:0;display:grid;place-items:center;background:#02070d;color:#00ffee;font:14px monospace;letter-spacing:2px;z-index:10}
-.frame{position:fixed;inset:0;border:0;width:100%;height:100%;background:#02070d}
-</style>
+<style>html,body{margin:0;height:100%;background:#02070d;color:#fff}iframe{position:fixed;inset:0;width:100%;height:100%;border:0;background:#02070d}</style>
 </head>
 <body>
-<div id="loading">INITIALISING AFRICANEYE INTELLIGENCE...</div>
-<iframe id="osintApp" class="frame" title="AfricanEye Intelligence" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-<script type="module">
-import { AFRICANEYE_INTELLIGENCE } from './assets/africaneye-intelligence/frontend-manifest.js';
-
-// The Intelligence frontend is local to AfricanEye. AfrOsint is only the
-// protected read-only source used by the build-time vendor workflow.
-const LOCAL_APP='./assets/africaneye-intelligence/index.html';
-
-fetch(LOCAL_APP,{cache:'no-cache'}).then(r=>{
-  if(!r.ok) throw new Error('Local Intelligence frontend not found. Run the vendor workflow.');
-  return r.text();
-}).then(html=>{
-  const parser=new DOMParser();
-  const doc=parser.parseFromString(html,'text/html');
-  doc.title='AfricanEye Intelligence';
-  document.getElementById('osintApp').srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
-  document.getElementById('loading').remove();
-}).catch(err=>{
-  document.getElementById('loading').textContent='AFRICANEYE INTELLIGENCE: '+err.message;
-});
-
-console.info(`${AFRICANEYE_INTELLIGENCE.name}: local frontend-only mode`);
-</script>
+<iframe title="AfricanEye Intelligence" src="assets/africaneye-intelligence/index.html" allow="fullscreen"></iframe>
 </body>
 </html>
