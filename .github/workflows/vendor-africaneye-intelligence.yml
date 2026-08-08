@@ -9,6 +9,12 @@ on:
     paths:
       - 'scripts/vendor-africaneye-intelligence.mjs'
       - '.github/workflows/vendor-africaneye-intelligence.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'scripts/vendor-africaneye-intelligence.mjs'
+      - '.github/workflows/vendor-africaneye-intelligence.yml'
 
 permissions:
   contents: write
@@ -38,6 +44,7 @@ jobs:
           fi
 
       - name: Commit vendored frontend
+        if: github.event_name != 'pull_request'
         run: |
           git config user.name 'AfricanEye Vendor Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
