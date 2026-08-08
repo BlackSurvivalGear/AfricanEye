@@ -25,11 +25,9 @@ jobs:
           ROOT="assets/africaneye-intelligence"
           test -f "$ROOT/index.html"
 
-          # Remove known backend/authentication modules from the uploaded frontend.
           rm -f "$ROOT/js/afrosint-auth.js" "$ROOT/js/reports.js" "$ROOT/js/analyst.js"
           rm -rf "$ROOT/js/prompts"
 
-          # Rebrand all text-based frontend files without touching binary media.
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -49,7 +47,6 @@ jobs:
               s = re.sub(r'\.\./assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png', '../assets/images/africaneye-logo.svg', s, flags=re.I)
               p.write_text(s, encoding='utf-8')
 
-          # Remove authentication/loading UI remnants from the imported page.
           index = root / 'index.html'
           s = index.read_text(encoding='utf-8')
           s = re.sub(r'<!--\s*Firebase SDKs.*?-->', '', s, flags=re.I|re.S)
@@ -58,11 +55,13 @@ jobs:
           s = re.sub(r'<div[^>]*class=["\'][^"\']*loader-text[^"\']*["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
           index.write_text(s, encoding='utf-8')
 
-          # Ensure the AfricanEye logo path used by CSS is local and consistent.
           css = root / 'css/style.css'
           if css.exists():
               c = css.read_text(encoding='utf-8')
               c = re.sub(r"url\(['\"]?\.\./assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png['\"]?\)", "url('../assets/images/africaneye-logo.svg')", c, flags=re.I)
+              c = re.sub(r'/\* Authentication Loading Screen \*/.*?(?=/\* User Profile Header \*/)', '', c, flags=re.I|re.S)
+              c = re.sub(r'/\* User Profile Header \*/.*?(?=/\* Reports System Styles \*/)', '', c, flags=re.I|re.S)
+              c = re.sub(r'/\* Reports System Styles \*/.*$', '', c, flags=re.I|re.S)
               css.write_text(c, encoding='utf-8')
           PY
 
