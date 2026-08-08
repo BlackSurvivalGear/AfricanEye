@@ -16,66 +16,24 @@ html,body{margin:0;height:100%;background:#02070d;color:#fff;font-family:Arial,s
 <script type="module">
 import { AFRICANEYE_INTELLIGENCE } from './assets/africaneye-intelligence/frontend-manifest.js';
 
-const SOURCE='https://raw.githubusercontent.com/BlackSurvivalGear/AfrOsint/main/index.html';
-const BASE='https://raw.githubusercontent.com/BlackSurvivalGear/AfrOsint/main/';
+// The Intelligence frontend is local to AfricanEye. AfrOsint is only the
+// protected read-only source used by the build-time vendor workflow.
+const LOCAL_APP='./assets/africaneye-intelligence/index.html';
 
-// Transitional loader only. The source repository remains untouched. Backend/auth
-// dependencies are stripped before the frontend is rendered inside AfricanEye.
-fetch(SOURCE,{cache:'no-store'}).then(r=>{
-  if(!r.ok) throw new Error('Source unavailable');
+fetch(LOCAL_APP,{cache:'no-cache'}).then(r=>{
+  if(!r.ok) throw new Error('Local Intelligence frontend not found. Run the vendor workflow.');
   return r.text();
 }).then(html=>{
   const parser=new DOMParser();
   const doc=parser.parseFromString(html,'text/html');
   doc.title='AfricanEye Intelligence';
-  const base=doc.createElement('base');
-  base.href=BASE;
-  doc.head.prepend(base);
-
-  // Remove backend/auth dependencies. This integration is frontend-only.
-  doc.querySelectorAll('script[src]').forEach(s=>{
-    const src=s.getAttribute('src')||'';
-    if(/firebase|permissions|afrosint-auth|login\//i.test(src)) s.remove();
-  });
-  doc.querySelectorAll('script').forEach(s=>{
-    if(!s.src && /firebase|afrosint-auth|handleLogout|authLoadingScreen/i.test(s.textContent)) s.remove();
-  });
-
-  // Resolve source-relative frontend assets while the vendored implementation is completed.
-  doc.querySelectorAll('link[href],img[src],script[src]').forEach(el=>{
-    const attr=el.hasAttribute('href')?'href':'src';
-    const value=el.getAttribute(attr);
-    if(value && !/^(https?:|data:|#)/i.test(value)) {
-      el.setAttribute(attr,BASE+value.replace(/^\.\//,''));
-    }
-  });
-
-  // Rebrand the rendered frontend.
-  doc.querySelectorAll('*').forEach(el=>{
-    if(el.childNodes.length===1 && el.firstChild.nodeType===3) {
-      el.firstChild.nodeValue=el.firstChild.nodeValue
-        .replace(/AfrOsint/gi,'AfricanEye')
-        .replace(/AFROSINT/gi,'AFRICANEYE');
-    }
-    for(const attr of [...el.attributes]) {
-      if(/^(alt|title|aria-label)$/i.test(attr.name)) {
-        attr.value=attr.value.replace(/AfrOsint/gi,'AfricanEye').replace(/AFROSINT/gi,'AFRICANEYE');
-      }
-    }
-  });
-
-  const auth=doc.getElementById('authLoadingScreen');
-  if(auth) auth.remove();
-  const app=doc.getElementById('mainAppContainer');
-  if(app) app.style.display='block';
-
   document.getElementById('osintApp').srcdoc='<!doctype html>'+doc.documentElement.outerHTML;
   document.getElementById('loading').remove();
 }).catch(err=>{
-  document.getElementById('loading').textContent='AFRICANEYE INTELLIGENCE FAILED TO INITIALISE: '+err.message;
+  document.getElementById('loading').textContent='AFRICANEYE INTELLIGENCE: '+err.message;
 });
 
-console.info(`${AFRICANEYE_INTELLIGENCE.name}: frontend-only mode`);
+console.info(`${AFRICANEYE_INTELLIGENCE.name}: local frontend-only mode`);
 </script>
 </body>
 </html>
