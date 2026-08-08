@@ -13,101 +13,89 @@ jobs:
   clean:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout AfricanEye
+      - name: Checkout AfricanEye integration branch
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Pull read-only AfrOsint frontend source
+      - name: Clean uploaded frontend only
+        shell: bash
         run: |
-          mkdir -p /tmp/afrosint
-          curl -fsSL https://github.com/BlackSurvivalGear/AfrOsint/archive/refs/heads/main.tar.gz -o /tmp/afrosint.tar.gz
-          tar -xzf /tmp/afrosint.tar.gz -C /tmp/afrosint --strip-components=1
+          set -euo pipefail
+          ROOT="assets/africaneye-intelligence"
+          test -f "$ROOT/index.html"
 
-      - name: Rebuild frontend-only index from source
-        run: |
-          python3 <<'PY'
+          # Remove known backend/authentication modules from the uploaded frontend.
+          rm -f "$ROOT/js/afrosint-auth.js" "$ROOT/js/reports.js" "$ROOT/js/analyst.js"
+          rm -rf "$ROOT/js/prompts"
+
+          # Rebrand all text-based frontend files without touching binary media.
+          python3 - <<'PY'
           from pathlib import Path
           import re
 
-          source = Path('/tmp/afrosint/index.html')
-          target = Path('assets/africaneye-intelligence/index.html')
-          s = source.read_text(encoding='utf-8')
-
-          # Branding and local paths.
-          s = re.sub(r'AfrOsint', 'AfricanEye', s, flags=re.I)
-          s = s.replace('AFROSINT', 'AFRICANEYE')
-          s = s.replace('assets/images/AFROSINT LOGO.png', 'assets/images/africaneye-logo.svg')
-          s = s.replace('../assets/images/AFROSINT LOGO.png', '../assets/images/africaneye-logo.svg')
-
-          # Remove authentication/backend entry points.
-          s = re.sub(r'<!--\s*Firebase SDKs.*?-->', '', s, flags=re.I|re.S)
-          s = re.sub(r'<script[^>]+(?:firebase|afrosint-auth|permissions\.js)[^>]*></script>', '', s, flags=re.I)
-          s = re.sub(r'<div[^>]*class=["\'][^"\']*loader-text[^"\']*["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
-          s = re.sub(r'<div[^>]*id=["\']authLoadingScreen["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
-          s = re.sub(r'<script[^>]+js/(?:reports|analyst)\.js[^>]*></script>', '', s, flags=re.I)
-
-          # Remove client-side AI API modules from the frontend build.
-          for name in ['deepDive','sitrep','bugoutPlanner','scenarioPlanner','routeRisk','newsAnalysis','diasporaBrief','countrySitrep','relocationOverview']:
-              s = re.sub(rf'<script[^>]+js/prompts/{name}\.js[^>]*></script>', '', s, flags=re.I)
-
-          # Remove explicit API-key input controls while keeping the intelligence UI shell.
-          s = re.sub(r'<div[^>]*id=["\']aiDSKeyInput["\'][^>]*>.*?</div>', '<div class="frontend-only-note">Live AI services disabled in frontend-only mode.</div>', s, flags=re.I|re.S)
-          s = re.sub(r'<input[^>]*id=["\']aiDSKeyField["\'][^>]*>', '', s, flags=re.I)
-
-          # Use AfricanEye-owned logo consistently.
-          s = s.replace('AFRICANEYE LOGO.png', 'africaneye-logo.svg')
-          target.parent.mkdir(parents=True, exist_ok=True)
-          target.write_text(s, encoding='utf-8')
-          PY
-
-      - name: Remove backend/auth files from vendored frontend
-        run: |
-          rm -f assets/africaneye-intelligence/js/afrosint-auth.js
-          rm -f assets/africaneye-intelligence/js/reports.js
-          rm -f assets/africaneye-intelligence/js/analyst.js
-          rm -rf assets/africaneye-intelligence/js/prompts
-
-      - name: Apply AfricanEye branding and frontend-only guards
-        run: |
-          python3 <<'PY'
-          from pathlib import Path
-          import re
           root = Path('assets/africaneye-intelligence')
+          text_ext = {'.html','.css','.js','.mjs','.json','.svg','.md'}
           for p in root.rglob('*'):
-              if p.is_file() and p.suffix.lower() in {'.html','.css','.js','.mjs','.json','.svg','.md'}:
-                  try: s = p.read_text(encoding='utf-8')
-                  except UnicodeDecodeError: continue
-                  s = re.sub(r'AfrOsint', 'AfricanEye', s, flags=re.I)
-                  s = s.replace('AFROSINT', 'AFRICANEYE')
-                  s = s.replace("../assets/images/AFRICANEYE LOGO.png", "../assets/images/africaneye-logo.svg")
-                  s = s.replace("assets/images/AFRICANEYE LOGO.png", "assets/images/africaneye-logo.svg")
-                  p.write_text(s, encoding='utf-8')
+              if not p.is_file() or p.suffix.lower() not in text_ext:
+                  continue
+              try:
+                  s = p.read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              s = re.sub(r'AfrOsint', 'AfricanEye', s, flags=re.I)
+              s = s.replace('AFROSINT', 'AFRICANEYE')
+              s = re.sub(r'assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png', 'assets/images/africaneye-logo.svg', s, flags=re.I)
+              s = re.sub(r'\.\./assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png', '../assets/images/africaneye-logo.svg', s, flags=re.I)
+              p.write_text(s, encoding='utf-8')
 
+          # Remove authentication/loading UI remnants from the imported page.
+          index = root / 'index.html'
+          s = index.read_text(encoding='utf-8')
+          s = re.sub(r'<!--\s*Firebase SDKs.*?-->', '', s, flags=re.I|re.S)
+          s = re.sub(r'<script[^>]+(?:firebase|afrosint-auth|permissions\.js|reports\.js|analyst\.js)[^>]*></script>', '', s, flags=re.I)
+          s = re.sub(r'<div[^>]*id=["\']authLoadingScreen["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
+          s = re.sub(r'<div[^>]*class=["\'][^"\']*loader-text[^"\']*["\'][^>]*>.*?</div>', '', s, flags=re.I|re.S)
+          index.write_text(s, encoding='utf-8')
+
+          # Ensure the AfricanEye logo path used by CSS is local and consistent.
           css = root / 'css/style.css'
           if css.exists():
               c = css.read_text(encoding='utf-8')
-              c = c.replace("url('../assets/images/AFRICANEYE LOGO.png')", "url('../assets/images/africaneye-logo.svg')")
-              if '.frontend-status{' not in c:
-                  c += "\n.frontend-status{color:#00ffee;font-family:'Share Tech Mono',monospace;font-size:11px;letter-spacing:2px;text-shadow:0 0 8px #00ffee55;text-align:right}.frontend-status-sub{color:#7fd6df;font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:1px;text-align:right;margin-top:4px}\n"
+              c = re.sub(r"url\(['\"]?\.\./assets/images/(?:AFROSINT|AFRICANEYE) LOGO\.png['\"]?\)", "url('../assets/images/africaneye-logo.svg')", c, flags=re.I)
               css.write_text(c, encoding='utf-8')
           PY
 
-      - name: Verify no backend or legacy branding remains
+      - name: Verify frontend-only boundary
+        shell: bash
         run: |
-          if grep -RniE 'firebase|firestore|storage\.ref|afrosint-auth|AUTHENTICATING PERSONNEL|AfrOsint|api\.openai\.com|Authorization.*Bearer' assets/africaneye-intelligence --include='*.html' --include='*.css' --include='*.js' --include='*.mjs'; then
+          set -euo pipefail
+          ROOT="assets/africaneye-intelligence"
+          test -f "$ROOT/index.html"
+          test -f "$ROOT/js/app.js"
+          test -f "$ROOT/css/style.css"
+
+          if find "$ROOT" -type f \( -name 'afrosint-auth.js' -o -name 'reports.js' -o -name 'analyst.js' \) | grep -q .; then
+            echo 'Backend/authentication files remain in the frontend tree.'
+            exit 1
+          fi
+
+          if grep -RniE 'firebase|firestore|afrosint-auth|AUTHENTICATING PERSONNEL|AfrOsint|api\.openai\.com|Authorization[[:space:]]*:[[:space:]]*Bearer' "$ROOT" \
+            --include='*.html' --include='*.css' --include='*.js' --include='*.mjs' --include='*.json' --include='*.svg'; then
             echo 'Frontend-only verification failed.'
             exit 1
           fi
 
       - name: Commit cleaned frontend
+        shell: bash
         run: |
+          set -euo pipefail
           git config user.name 'AfricanEye Frontend Bot'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add assets/africaneye-intelligence
           if git diff --cached --quiet; then
-            echo 'No frontend changes to commit.'
+            echo 'No frontend cleanup changes required.'
             exit 0
           fi
-          git commit -m 'build: clean AfricanEye intelligence frontend'
-          git push
+          git commit -m 'fix: clean AfricanEye intelligence frontend'
+          git push origin HEAD:feature/africaneye-osint-frontend
